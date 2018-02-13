@@ -32,6 +32,7 @@ def main():
 
   # class Goblin:
 
+  
   hero = Character('hero', 10, 5)
   goblin = Character('goblin', 6, 2)
 
