@@ -51,5 +51,7 @@ def alive(self):
       if goblin.alive():
         # Goblin attacks hero
         goblin.attack(hero)
+      
+      goblin.health += hero.power
 
 main()
