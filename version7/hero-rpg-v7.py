@@ -25,8 +25,8 @@
   #ZOMBIE CHARACTER HEALTH RETURN TRUE EVEN IF HEALTH IS LESS THAN 0
 
 #5 MAKE TWO UNIQUE CHARACTERS AND IMPLEMENT THEM
-  #ANTI-HERO - ANDY'S IDEA
-  #RANDOM GUARADIAN ANGEL - CHRISTIAN'S IDEA
+  #ANTI-HERO - ANDY'S idea
+  #RANDOM GUARADIAN ANGEL - CHRISTIAN'S idea
 
 #6 MAKE CHARACTES GOBLIN PRIZE WOULD BE EQUAL TO 5, WIZARD TO 6
   #INVENTORY ATTRITUBE WITH PROPERTIES INCLUDING PURSE ATTRIBUTE WHICH WOULD CONTAIN COINS
@@ -66,6 +66,38 @@
   #list_inventory
    #use_items
 
+
+
+ #class Inventory:
+    #def __init__(self)
+        #self.items = {
+            #armor : 1
+            #evade : 1
+            #supertonic : 1
+            #protein - increase health : 0
+            #grenade - deals a certain amount of damage to all : 0
+        #}
+        #self.size = len(items)
+        #def print_inventory(self):
+            #print('You have {} in your inventory:\n\n {} \n\n'.format(self.size, str(self.items)))
+
+        #def use_items(self, user, item, enemy=None):
+            #if item == self.items.supertonic and item > 0:
+                # if user.health + 10 > user.maxHealth:
+                    #user.health = user.maxHealth
+                #else:
+                    #user.health += 10
+                #item -= 1
+
+            #elif item == self.items.grenade and item > 0 and enemy != None:
+                #user.health -= 8
+                #enemy.health -= 8
+                #item -= 1
+            #else:
+                #print('Cannot find item')
+
+
+
 import random
 
 def main():
@@ -78,8 +110,6 @@ def main():
 
       # charSkill
       # self.special = special
-      #self.armour = armour
-      #self.evade = chance to evade
 
     def alive(self):
       return self.health > 0
@@ -98,7 +128,7 @@ def main():
       if random.random < probability:
 				charSkill()
 			else:
-        enemy.health -= self.power #-  enemy.armour attribute
+        enemy.health -= self.power #-  enemy.armor
 	      print("The {} does {} damage to the {}.".format(self.name, self.power, enemy))
 
       if enemy.name == 'medic'and random.randint(1, 100) < 20 and enemy.alive():
@@ -119,11 +149,12 @@ def main():
   class Hero(Character):
     def __init__(self):
       self.name = 'hero'
-      self.health = 10
+      self.health = 10 # =
+      #self.maxHealth = 10 + inventory.items.protein
       self.power = 5
       self.coins = 20 # default value from hero_rpg_part2.py
-      self.armor = armor
-      self.agility = 50 #CHECK WITH AGILITY
+      self.armor = 0 # + inventory.items.armor
+      self.agility = 50 #CHECK WITH AGILITY # + inventory.items.evade
       def charSkill(self, enemy):
       	enemy.health -= self.power
         print('The {} does {} extra damage to {}'.format(self.name, self.power, enemy))
@@ -200,6 +231,11 @@ def main():
       if charToSave.health > 2 and random.randint(1, 100) < 30 and charToSave.alive():
         print('A {} steps in and deals {} damage to the {} before mysteriously disappearing'.format(self.name, self.power, enemy))
         enemy.health -= self.power
+
+
+
+
+
 
 #   hero = Hero()
 #   goblin = Goblin()
