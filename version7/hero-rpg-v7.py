@@ -254,9 +254,10 @@ def main():
           }
           self.size = len(self.items)
       def print_inventory(self):
-              print('You have {} in your inventory:\n\n {} \n\n'.format(self.size, str(self.items)))
+              print('You have {} slots in your inventory:\n\n {} \n\n'.format(self.size, str(self.items)))
 
       def inventory_options(self, hero, enemy):
+            enemy = enemy
             while True:
               self.print_inventory()
               print('       INVENTORY OPTIONS:    ')
@@ -266,29 +267,30 @@ def main():
               if self.items['grenade'] > 0:
                   print('2. Use 1 of {} grenades'.format(self.items['grenade']))
               if self.items['grenade'] == 0 and self.items['supertonic'] == 0:
-                print('You have no items to use!')
+                print('You have no items to use!\n \n')
                 break
               print('3. Go back')
               raw_input = input()
               if raw_input == "1" and self.items['supertonic'] > 0:
                 self.use_items(hero, self.items['supertonic'])
               elif raw_input == "2" and self.items['grenade'] > 0:
-                self.use_items(hero, self.items['grenade'])
-                print("Is the bug here?")
+                self.use_items(hero, self.items['grenade'], enemy)
                 break
               elif raw_input == "3":
                 break
 
-      def use_items(self, hero, item):
-              if item == self.items['supertonic'] and item > 0:
+      def use_items(self, hero, item, enemy):
+              if item == self.items['supertonic'] and self.items['supertonic'] > 0:
                   if hero.health + 10 > hero.maxHealth:
+                      print('The hero has healed\n')
                       hero.health = hero.maxHealth
                   else:
                       hero.health += 10
+                      print("The hero has healed")
                   self.items['supertonic'] -= 1
 
-              elif item == self.items['grenade'] and item > 0:
-                  print("BOOOOOOOOOMMMMM you threw a grenade")
+              elif item == self.items['grenade'] and self.items['grenade'] > 0:
+                  print("BOOOOOOOOOMMMMM you threw a grenade \nDoes 8 damage to {} and {} ".format(hero, enemy))
                   hero.health -= 8
                   enemy.health -= 8
                   self.items['grenade'] -= 1
