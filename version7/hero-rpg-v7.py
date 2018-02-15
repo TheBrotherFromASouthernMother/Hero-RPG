@@ -112,7 +112,8 @@ class MainMenu():
             2. do nothing
             3. go to store
             4. check inventory
-            5. quit game''')
+            5. quit game
+            >''')
         raw_input = input(" What would you like to do? ")
         if raw_input == '1':
             battle_menu.do_battle()
@@ -139,6 +140,7 @@ class Store():
       5. Buy one Protein
       6. Buy one Grenade
       7. Leave store
+			>
       '''.format(hero.coins))
 			if hero.coins < 5:
         print("You're all out of cash! You can't shop here peasant!")
@@ -227,11 +229,11 @@ def main():
     def __init__(self):
       self.name = 'hero'
       self.health = 10 # =
-      #self.maxHealth = 10 + inventory.items.protein
+      self.maxHealth = 10 + inventory.items.protein
       self.power = 5
       self.coins = 20 # default value from hero_rpg_part2.py
-      self.armor = 0 # + inventory.items.armor
-      self.agility = 50 #CHECK WITH AGILITY # + inventory.items.evade
+      self.armor = 0 + inventory.items.armor
+      self.agility = 50 + inventory.items.evade
       def charSkill(self, enemy):
       	enemy.health -= self.power
         print('The {} does {} extra damage to {}'.format(self.name, self.power, enemy))
@@ -295,7 +297,7 @@ def main():
 			self.coins = -5
     def charSkill(self, enemy):
       self.health -= self.power
-      print('The {} does {} extra damage to {}. An antihero is its own worst enemy!'.format(self.name, self.power, self.name))
+      print('The {} does {} damage to {}. An antihero is its own worst enemy!'.format(self.name, self.power, self.name))
 
 
 
@@ -323,49 +325,56 @@ def main():
   zombie = Zombie()
 
 
-  enemies = [goblin, wizard, shadow, medic, antihero, zombie]
-  defeatedEnemies = []
-
+enemies = [goblin, wizard, shadow, medic, antihero, zombie]
+defeatedEnemies = []
 
 
 
 #   hero = Hero()
 #   goblin = Goblin()
 
-class BattleField:
-  def do_battle():
-    while enemy.alive() and hero.alive():
-      #BATTFIELD MENU FUNCTION:
-        hero.print_status()
-        goblin.print_status() # CHANGE
-        print()
-        print("What do you want to do?")
-        print("1. fight goblin")
-        print("2. do nothing")
-        print("3. flee")
-        print("> ", end=' ')
-        raw_input = input()
-        if raw_input == "1":
-          hero.attack(goblin)
-          goblin.health += hero.power # CHANGE
-        elif raw_input == "2":
-          pass
-        elif raw_input == "3":
-          print("Goodbye.")
-          break
-        #ELIF OPTION 4:
-          # GO TO INVENTORY SUB MENU
-            #OPTIONS
-              #SO ATTACK "3X ITEM" IMMEDIATELY CALLS HERO.ATTACK 3 TIMES"
-              #HEALING POTION WOULD RESTORE HEALTH IF QUANITY IS GREATER THAN 0
+  class BattleField:
+    def do_battle():
 
-        else:
-          print("Invalid input {}".format(raw_input))
+      randomIndex = random.randint(0, 6)
+      enemy = enemies[randomIndex]
+      while enemy.alive() and hero.alive():
+        #BATTFIELD MENU FUNCTION:
+          hero.print_status()
+          enemy.print_status()
+          print("An enemy approaches, steel yourself brave warrior...\n")
 
-        if enemy.alive():
-          # Goblin attacks hero
-          enemy.attack(hero) # disable so that hero never dies
-          guardianAngel.saveTheDay(hero, enemy)
+          print("A {} comes out of nowhere itching to fight".format(enemy))
+          print("What do you want to do?")
+          print("1. fight {}".format(enemy))
+          print("2. do nothing")
+          print("3. flee")
+          print("4. Open Inventory")
+          print("> ", end=' ')
+          raw_input = input()
+          if raw_input == "1":
+            hero.attack(enemy)
+          elif raw_input == "2":
+            pass
+          elif raw_input == "3":
+            print("You flee like a coward. Nope, not like. You ARE a coward.")
+            mainMenu.displayMainMenu()
+          elif raw_input = '4':
+						inventory.displayStore()
+          else:
+            print("Invalid input {}".format(raw_input))
+
+          if enemy.alive():
+            # enemy attacks hero
+            enemy.attack(hero)
+            guardianAngel.saveTheDay(hero, enemy)
+          else:
+      			defeatedEnemies.append(enemy)
+
+
+  if len(deafetedEnemies) == len(enemies)
+    	print("YOU DID IT YOU WON THE GAME!!!!!!")
+    	exit(0)
 
 
 main()
@@ -374,11 +383,6 @@ main()
 #if __name__ == "__main__":
 
 
-
-
-  #if len(deafetedEnemies) == len(enemies)
-    #print YOU DID IT YOU WON
-    #exit(0)
 
   #enemy = enemies[random.randint()]
   #if enemy is not in defeatedEnemies
