@@ -68,33 +68,110 @@
 
 
 
- #class Inventory:
-    #def __init__(self)
-        #self.items = {
-            #armor : 1
-            #evade : 1
-            #supertonic : 1
-            #protein - increase health : 0
-            #grenade - deals a certain amount of damage to all : 0
-        #}
-        #self.size = len(items)
-        #def print_inventory(self):
-            #print('You have {} in your inventory:\n\n {} \n\n'.format(self.size, str(self.items)))
+ class Inventory():
+    def __init__(self)
+        self.items = {
+            armor : 1
+            evade : 1
+            supertonic : 1
+            protein - increase health : 0
+            grenade - deals a certain amount of damage to all : 0
+        }
+        self.size = len(items)
+        def print_inventory(self):
+            print('You have {} in your inventory:\n\n {} \n\n'.format(self.size, str(self.items)))
 
-        #def use_items(self, user, item, enemy=None):
-            #if item == self.items.supertonic and item > 0:
-                # if user.health + 10 > user.maxHealth:
-                    #user.health = user.maxHealth
-                #else:
-                    #user.health += 10
-                #item -= 1
+        def use_items(self, hero, item, enemy=None):
+            if item == self.items.supertonic and item > 0:
+                if hero.health + 10 > hero.maxHealth:
+                    hero.health = hero.maxHealth
+                else:
+                    hero.health += 10
+                item -= 1
 
-            #elif item == self.items.grenade and item > 0 and enemy != None:
-                #user.health -= 8
-                #enemy.health -= 8
-                #item -= 1
-            #else:
-                #print('Cannot find item')
+            elif item == self.items.grenade and item > 0 and enemy != None:
+                hero.health -= 8
+                enemy.health -= 8
+                item -= 1
+            else:
+                print('Cannot find item')
+
+
+
+
+
+class MainMenu():
+    def displayMainMenu():
+      while True:
+        print("=====================")
+        print("WELCOME TO CAMELOT")
+        print("=====================")
+        print("			OPTIONS			")
+        print('''
+        		1. Start Game
+            2. do nothing
+            3. go to store
+            4. check inventory
+            5. quit game''')
+        raw_input = input(" What would you like to do? ")
+        if raw_input == '1':
+            battle_menu.do_battle()
+        elif raw_input == '2':
+            pass
+        elif raw_input == '3':
+            store_menu.display_store()
+        elif raw_input == '4':
+            inventory.print_inventory()
+        elif raw_input == '5':
+            exit(0)
+        else:
+            print("Invalid input")
+
+class Store():
+	def displayStore(self, hero):
+    while True:
+      print('''
+    	You have {} coins.
+      1. Show inventory
+      2. Buy one SuperTonic
+      3. Buy one Armor
+      4. Buy one Evade
+      5. Buy one Protein
+      6. Buy one Grenade
+      7. Leave store
+      '''.format(hero.coins))
+			if hero.coins < 5:
+        print("You're all out of cash! You can't shop here peasant!")
+        break
+      else:
+        if raw_input == '1':
+            inventory.print_inventory()
+        elif raw_input == '2':
+            hero.coins -= 5
+            inventory.items.supertonic += 1
+            print('One supertonic has been added to your inventory')
+        elif raw_input == '3':
+            hero.coins -= 5
+            inventory.items.armor += 1
+            print('One armor has been added to your inventory')
+        elif raw_input == '4':
+            hero.coins -= 5
+            inventory.items.evade += 1
+            print('One evade has been added to your inventory')
+        elif raw_input == '5':
+            hero.coins -= 5
+            inventory.items.protein += 1
+            print('One protein has been added to your inventory')
+        elif raw_input == '6':
+            hero.coins -= 5
+            inventory.items.grenade += 1
+            print('One grenade has been added to your inventory')
+        elif raw_input = '7':
+            print('')
+            print('Pleasure doing business with you!')
+            break
+        else:
+          print('Invalid input')
 
 
 
@@ -169,7 +246,7 @@ def main():
       self.coins = 5
       self.agility = 1
 
-	class Medic(Hero):
+	class Medic(Character):
     def __init__(self):
     	self.name = "medic"
       self.health = 6
@@ -209,7 +286,7 @@ def main():
       enemy.health -= 8
       print('The {} shoots a freaking lightning bolt at {}'.format(self.name, enemy.name))
 
-	class antihero(Hero):
+	class Antihero(Character):
   	def __init__(self):
       self.name = 'antihero'
       self.health = 10
@@ -233,6 +310,21 @@ def main():
         enemy.health -= self.power
 
 
+  #allies
+  guardianangel = GuardianAngel()
+
+	#enemies
+	gobilin = Goblin()
+  wizard = Wizard()
+  shadow = Shadow()
+  medic = Medic()
+  antihero = Antihero()
+
+  zombie = Zombie()
+
+
+  enemies = [goblin, wizard, shadow, medic, antihero, zombie]
+  defeatedEnemies = []
 
 
 
@@ -240,38 +332,40 @@ def main():
 #   hero = Hero()
 #   goblin = Goblin()
 
-  while enemy.alive() and hero.alive():
-    #BATTFIELD MENU FUNCTION:
-      hero.print_status()
-      goblin.print_status() # CHANGE
-      print()
-      print("What do you want to do?")
-      print("1. fight goblin")
-      print("2. do nothing")
-      print("3. flee")
-      print("> ", end=' ')
-      raw_input = input()
-      if raw_input == "1":
-        hero.attack(goblin)
-        goblin.health += hero.power # CHANGE
-      elif raw_input == "2":
-        pass
-      elif raw_input == "3":
-        print("Goodbye.")
-        break
-      #ELIF OPTION 4:
-        # GO TO INVENTORY SUB MENU
-          #OPTIONS
-            #SO ATTACK "3X ITEM" IMMEDIATELY CALLS HERO.ATTACK 3 TIMES"
-            #HEALING POTION WOULD RESTORE HEALTH IF QUANITY IS GREATER THAN 0
+class BattleField:
+  def do_battle():
+    while enemy.alive() and hero.alive():
+      #BATTFIELD MENU FUNCTION:
+        hero.print_status()
+        goblin.print_status() # CHANGE
+        print()
+        print("What do you want to do?")
+        print("1. fight goblin")
+        print("2. do nothing")
+        print("3. flee")
+        print("> ", end=' ')
+        raw_input = input()
+        if raw_input == "1":
+          hero.attack(goblin)
+          goblin.health += hero.power # CHANGE
+        elif raw_input == "2":
+          pass
+        elif raw_input == "3":
+          print("Goodbye.")
+          break
+        #ELIF OPTION 4:
+          # GO TO INVENTORY SUB MENU
+            #OPTIONS
+              #SO ATTACK "3X ITEM" IMMEDIATELY CALLS HERO.ATTACK 3 TIMES"
+              #HEALING POTION WOULD RESTORE HEALTH IF QUANITY IS GREATER THAN 0
 
-      else:
-        print("Invalid input {}".format(raw_input))
+        else:
+          print("Invalid input {}".format(raw_input))
 
-      if enemy.alive():
-        # Goblin attacks hero
-        enemy.attack(hero) # disable so that hero never dies
-        guardianAngel.saveTheDay(hero, enemy)
+        if enemy.alive():
+          # Goblin attacks hero
+          enemy.attack(hero) # disable so that hero never dies
+          guardianAngel.saveTheDay(hero, enemy)
 
 
 main()
@@ -281,8 +375,6 @@ main()
 
 
 
-  #enemies = ['goblin, wizard, assasin, theif, crab] <--- all enemies
-  #defeatedEnemies = [goblin]
 
   #if len(deafetedEnemies) == len(enemies)
     #print YOU DID IT YOU WON
