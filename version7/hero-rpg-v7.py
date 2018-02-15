@@ -18,7 +18,7 @@
 #3 MAKE NEW CHARACTER SHADOW WHO HAS 1 HEALTH AND CAN ONLY TAKE DAMAGE
 #  EVERY TENTH TIME
   #use counter variable to determine how many times shadow has been attacked,
-  #if counter variable is equal ten he takes damage, counter variable is reset to 0 if 
+  #if counter variable is equal ten he takes damage, counter variable is reset to 0 if
   #he survives the attack
 
 #4 MAKE A ZOMBIE CHARACTER WHO CANNOT BE KILLED EVEN IF HIS HEALTH IS BELOW 0
@@ -53,77 +53,161 @@
 
 
 #SUB MENU ON MAIN MENU OPTION 4
-    
+
     #IF CHARACTER SELECTS SUB MENU IT SHOWS THEM THEIR INVENTORY AND OPTIONS
       #
 
 #class Merchandise
   #if not in battle
-  #display options 
+  #display options
     #do_shoppig
     #list_inventory
   #else:
   #list_inventory
    #use_items
 
-
+import random
 
 def main():
   class Character:
-    def __init__(self, name, health, power, CharSkill=None):
+    def __init__(self, name, health, power, agility, charSkill=None):
       self.name = name
       self.health = health
       self.power = power
+      self.agility = agility
+
+      # charSkill
+      # self.special = special
       #self.armour = armour
       #self.evade = chance to evade
-      #self.CharSkill = CharSkill
 
     def alive(self):
       return self.health > 0
-    
+
     def print_status(self):
       print("The {} has {} health and {} power.".format(self.name, self.health, self.power))
 
     def attack(self, enemy):
-    
-      #if enemy.evade():
-        #print {self.name}'s attack has missed the {enemy}
-        #return False
-      enemy.health -= self.power #-  enemy.armour attribute
-      print("The {} does {} damage to the {}.".format(self.name, self.power, enemy))
-      if enemy.alive():
-          print("The {} is dead.".format(enemy))   
-    
-    #def evade():
-      #random.radint() > self.evade percentage, return True else Return False
 
-    #def special(self.name, self.CharSkill, probability):
-        #if random.randint() < probability:
-          #self.CharSkill  
+
+      if enemy.evade():
+        print('{}\'s attack has missed the {}'.format(self.name, enemy))
+        return False
+
+      # set the probability value
+      if random.random < probability:
+				charSkill()
+			else:
+        enemy.health -= self.power #-  enemy.armour attribute
+	      print("The {} does {} damage to the {}.".format(self.name, self.power, enemy))
+
+      if enemy.name == 'medic'and random.randint(1, 100) < 20 and enemy.alive():
+        	enemy.charSkill()
+
+      if not enemy.alive():
+        print("The {} is dead.".format(enemy))
+
+
+    def evade():
+      if random.radint(1, 100) < agility:
+        return True
+      else Return False
 
     def __str__(self):
       return self.name
-    
-  # class Hero:
-    
 
-  # class Goblin:
+  class Hero(Character):
+    def __init__(self):
+      self.name = 'hero'
+      self.health = 10
+      self.power = 5
+      self.coins = 20 # default value from hero_rpg_part2.py
+      self.armor = armor
+      self.agility = 50 #CHECK WITH AGILITY
+      def charSkill(self, enemy):
+      	enemy.health -= self.power
+        print('The {} does {} extra damage to {}'.format(self.name, self.power, enemy))
 
-  class Medic(Character):
-    def heal(self, target):
-        target.health += 2
-        print("The {} has cast heal restoring 2 health points to {}".format(self.name, target.name))
-      else:
-        print("The {} tried to cast heal but has failed!".format(self.name))
 
-  
-  hero = Character('hero', 10, 5)
-  goblin = Character('goblin', 6, 2)
 
-  while goblin.alive() and hero.alive():
+	class Goblin(Character):
+    def __init__(self):
+      self.name = 'goblin'
+      self.health = 6
+      self.power = 2
+      self.coins = 5
+      self.agility = 1
+
+	class Medic(Hero):
+    def __init__(self):
+    	self.name = "medic"
+      self.health = 6
+      self.power = 3
+      self.coins = 5
+      super().__init__()
+    def charSkill(self):
+      self.health += 2
+      print('The {} has healed and regenerated 2 hp!'.format(self.name))
+
+  class Shadow(Character):
+    def __init__(self):
+      self.name = 'shadow'
+      self.health = 1
+      self.power = 1
+      self.coins = 5
+      self.agility = 90
+
+  class Zombie(Character):
+    def __init__(self):
+      self.name = 'zombie'
+      self.health = 6
+      self.power = 2
+      self.coins = 99
+      self.agility = 99
+  	def alive(self):
+      return True
+
+  class Wizard(Character):
+    def __init__(self):
+      self.name = 'wizard'
+      self.health = 8
+      self.power = 2
+      self.coins = random.randint(0, 40)
+      self.agility = 60
+    def charSkill(self, enemy):
+      enemy.health -= 8
+      print('The {} shoots a freaking lightning bolt at {}'.format(self.name, enemy.name))
+
+	class antihero(Hero):
+  	def __init__(self):
+      self.name = 'antihero'
+      self.health = 10
+      self.power = -5
+      self.agility = 50
+			self.coins = -5
+    def charSkill(self, enemy):
+      self.health -= self.power
+      print('The {} does {} extra damage to {}. An antihero is its own worst enemy!'.format(self.name, self.power, self.name))
+
+
+
+  class GuardianAngel(Character):
+    def __init__(self):
+      self.name = 'guardian angel'
+      self.power = 10
+
+    def savesTheDay(self, charToSave, enemy):
+      if charToSave.health > 2 and random.randint(1, 100) < 30 and charToSave.alive():
+        print('A {} steps in and deals {} damage to the {} before mysteriously disappearing'.format(self.name, self.power, enemy))
+        enemy.health -= self.power
+
+#   hero = Hero()
+#   goblin = Goblin()
+
+  while enemy.alive() and hero.alive():
     #BATTFIELD MENU FUNCTION:
       hero.print_status()
-      goblin.print_status()
+      goblin.print_status() # CHANGE
       print()
       print("What do you want to do?")
       print("1. fight goblin")
@@ -133,7 +217,7 @@ def main():
       raw_input = input()
       if raw_input == "1":
         hero.attack(goblin)
-        goblin.health += hero.power # to make goblin a zombie that heals by amount hero attacks
+        goblin.health += hero.power # CHANGE
       elif raw_input == "2":
         pass
       elif raw_input == "3":
@@ -148,9 +232,10 @@ def main():
       else:
         print("Invalid input {}".format(raw_input))
 
-      if goblin.alive():
+      if enemy.alive():
         # Goblin attacks hero
-        goblin.attack(hero) # disable so that hero never dies
+        enemy.attack(hero) # disable so that hero never dies
+        guardianAngel.saveTheDay(hero, enemy)
 
 
 main()
@@ -158,9 +243,9 @@ main()
 
 #if __name__ == "__main__":
 
-  #allies = []
 
-  #enemies = ['goblin, wizard, assasin, theif, crab] <--- all enemies 
+
+  #enemies = ['goblin, wizard, assasin, theif, crab] <--- all enemies
   #defeatedEnemies = [goblin]
 
   #if len(deafetedEnemies) == len(enemies)
@@ -168,11 +253,7 @@ main()
     #exit(0)
 
   #enemy = enemies[random.randint()]
-  #if enemy is not in defeatedEnemies 
+  #if enemy is not in defeatedEnemies
     #pass
   #elif enemy in deafetedEnemies gonb
     #enemy = enemies[random.randint()]
-
-  
-  
-    
